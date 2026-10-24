@@ -1,0 +1,8 @@
+import { NextRequest, NextResponse } from "next/server";
+import { getCurrentUser } from "@/lib/auth";
+
+export async function GET(request: NextRequest) {
+  const user = await getCurrentUser(request.cookies.get("dataflow_session")?.value ?? null);
+  if (!user) return NextResponse.json({ error: "Not signed in." }, { status: 401 });
+  return NextResponse.json({ user });
+}
